@@ -60,7 +60,7 @@ def load_data():
 
     # Time series data
     data = pd.DataFrame(np.vstack(df['data']).T)
-    data.index = pd.DatetimeIndex(pd.to_datetime(df.loc[0, 'xAxisValues'], unit='ms')).strftime('%Y-%m-%d-%H-%M-%S')
+    data.index = pd.DatetimeIndex(pd.to_datetime(df.loc[0, 'xAxisValues'], unit='ms'))
     data.columns = df['name'].apply(select_lang).rename('Time')
 
     return meta, column_info, data
