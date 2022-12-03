@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def solve(jobs, time_tags):
-    jobs = jobs.sort_values(by='deadline')
+    jobs = jobs.sort_values(by=['priority', 'deadline'], ascending=[False, True])
 
     schedule = pd.Series(index=time_tags.index)
     time_costs = time_tags.replace({'excess': 0, 'renewable': 1, 'grey': 2})
