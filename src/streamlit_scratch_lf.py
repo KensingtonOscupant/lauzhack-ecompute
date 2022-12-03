@@ -2,16 +2,11 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import numpy as np
-import plotly.figure_factory as ff
-import plotly.express as px
-import plotly.subplots as sp
-import dash_core_components as dcc
 import weather
-
-# Load data
-sample_data = pd.read_json('data/sample_time_series.json')
-sample_data['xAxisValues'] = pd.to_datetime(sample_data['xAxisValues'], unit='ms')
-sample_data = sample_data.set_index('xAxisValues')
+from dataloader import load_data
+from scheduler import add_time_chunk_classification
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Streamlit page config
 st.set_page_config(
@@ -40,60 +35,33 @@ with layout_col1:
 
 image = Image.open('img/logo.png')
 
+data = load_data()
+data = add_time_chunk_classification(data)
+data = data.loc[(data.index > '2022-04-01') & (data.index < '2022-05-01')]
+
+
+
 with layout_col2:
-   st.line_chart(sample_data)
-   df = pd.DataFrame([
-      dict(Task="Job A", Start='2009-01-01', Finish='2009-02-28'),
-      dict(Task="Job B", Start='2009-03-05', Finish='2009-04-15'),
-      dict(Task="Job C", Start='2009-02-20', Finish='2009-05-30')
-   ])
+   sns.set_theme(style="darkgrid")
+   fig, (ax1, ax2) = plt.subplots(nrows=2, sharex=True, figsize=(10,5))
+   # plt.stackplot(
+   #    ax=ax1,
+   #    x=data.index,
+   #    y=data['Percentage Renewable'],
+   # )
+   # ax=axes[0]
+   # sns.lineplot(
+   #    ax = ax1,
+   #    data = data,
+   #    y = 'Percentage Renewable',
+   #    x = data.index,
+   # )
+   # fig.suptitle('Bigger 1 row x 2 columns axes with no data')
+   # axes[0].set_title('Title of the first chart')
+   # sns.lineplot(ax=axes[0], data=data, x=data.index, y='Load')
+   # sns.lineplot(ax=axes[1], data=data, x=data.index, y='Nuclear')
+   data = data.sort_index()
+   ax1.fill_between(data.index, data['Percentage Renewable'], alpha=0.7)
 
-   fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
-   fig.update_yaxes(autorange="reversed") # otherwise tasks are listed from the bottom up
-   # fig.show()
+   st.pyplot(plt.gcf())
 
-   fig.update_xaxes(
-      side="top",
-      dtick="D1",
-      tickformat="%e\n%b\n%Y",
-      ticklabelmode="period",
-      tickangle=0,
-      fixedrange=True,
-   )
-   fig.update_yaxes(
-      title="",
-      tickson="boundaries",
-      fixedrange=True,
-   )
-   BARHEIGHT = .1
-   fig.update_layout(
-      yaxis={"domain": [max(1 - (BARHEIGHT * len(fig.data)), 0), 1]}, margin={"t": 0, "b": 0}
-   )
-
-   #st.plotly_chart(fig, use_container_width=True)
-
-
-
-   # how do i set bar thickness in plotly timeline charts? https://stackoverflow.com/questions/64888876/how-do-i-set-bar-thickness-in-plotly-timeline-charts
-
-# # Add histogram data
-# x1 = np.random.randn(200) - 2
-# x2 = np.random.randn(200)
-# x3 = np.random.randn(200) + 2
-
-# # Group data together
-# hist_data = [x1, x2, x3]
-
-# group_labels = ['Group 1', 'Group 2', 'Group 3']
-
-# # Create distplot with custom bin_size
-# fig = ff.create_distplot(
-#         hist_data, group_labels, bin_size=[.1, .25, .5])
-
-# # Plot!
-# st.plotly_chart(fig, use_container_width=True)
-
-text = "New York"
-
-# display text and image next to each other
-#st.image(image, caption=text, width=300)
