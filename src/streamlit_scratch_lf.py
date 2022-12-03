@@ -15,10 +15,11 @@ st.set_page_config(
 image_logo = Image.open('img/logo.png')
 
 
-layout_col1, layout_col2 = st.columns([1, 4])
+layout_col1, layout_col2 = st.columns([1, 4], gap='large')
 
 with layout_col1:
    st.image(image_logo)
+   st.success('You saved 938.5 CO2e over the last 7 days. ✅')
 
 with layout_col2:
    st.line_chart(sample_data)
