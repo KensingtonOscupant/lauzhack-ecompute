@@ -21,7 +21,7 @@ class SchedulingContext:
                 if tag == current_tag:
                     self._costs[i] = current_costs
                     current_costs += 1
-    
+
     def job(self):
         return [job.to_symbol() for job in self._jobs]
 
