@@ -2,4 +2,5 @@ numpy
 setuptools
 streamlit
 pandas
-plost
+dash
+clingo
