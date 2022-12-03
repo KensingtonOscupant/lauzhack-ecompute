@@ -13,14 +13,10 @@ def select_lang(d, lang='en'):
     return d
 
 
-def load_data():
-    week_dfs = []
-    for week_file in os.listdir('data'):
-        week_dfs.append(pd.read_json(os.path.join('data', week_file)))
-    
-    df = pd.concat(week_dfs, ignore_index=True)
-
+def load_meta():
     # Metadata
+    df = pd.read_json(os.path.join('data', os.listdir('data')[0]))
+
     meta = df.drop(
         [
             'date',
@@ -58,9 +54,19 @@ def load_data():
     ].reset_index().drop('index', axis=1)
     column_info['name'] = column_info['name'].apply(select_lang)
 
-    # Time series data
-    data = pd.DataFrame(np.vstack(df['data']).T)
-    data.index = pd.DatetimeIndex(pd.to_datetime(df.loc[0, 'xAxisValues'], unit='ms')).strftime('%Y-%m-%d-%H-%M-%S')
-    data.columns = df['name'].apply(select_lang).rename('Time')
+    return meta, column_info
 
-    return meta, column_info, data
+
+def load_data():
+    week_data = []
+    for week_file in os.listdir('data'):
+        week_df = pd.read_json(os.path.join('data', week_file))
+
+        data = pd.DataFrame(np.vstack(week_df['data']).T)
+        data.index = pd.DatetimeIndex(pd.to_datetime(week_df.loc[0, 'xAxisValues'], unit='ms'))
+        data.columns = week_df['name'].apply(select_lang).rename('Time')
+
+        week_data.append(data)
+    
+    data = pd.concat(week_data)
+    return data
