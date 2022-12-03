@@ -61,7 +61,10 @@ with layout_col2:
    # sns.lineplot(ax=axes[0], data=data, x=data.index, y='Load')
    # sns.lineplot(ax=axes[1], data=data, x=data.index, y='Nuclear')
    data = data.sort_index()
-   ax1.fill_between(data.index, data['Percentage Renewable'], alpha=0.7)
+   ax1.fill_between(data.index, data['Percentage Fossil'], alpha=0.7)
+   ax1.fill_between(data.index, 1, data['Percentage Fossil'], alpha=0.7)
+   ax1.set_ylim(0,1)
+   ax1.set_xlim(data.index[0], data.index[-1])
 
    st.pyplot(plt.gcf())
 

@@ -41,4 +41,3 @@ def add_time_chunk_classification(data: pd.DataFrame):
     # If not green and not overproduction, it is grey
     data['Grey'] = (data['Green'] == False) & (data['Overproduction'] == False)
     return data
-
