@@ -30,7 +30,11 @@ def add_time_chunk_classification(data: pd.DataFrame):
     over_prodcution = (fossil_power + renewable_power) - data['Load']
 
     data['Overproduction'] =  over_prodcution > 5000 
-    percentage_renewable = renewable_power / (fossil_power + renewable_power)
+    total = fossil_power + renewable_power
+    percentage_renewable = renewable_power / total
+
+    data['Percentage Renewable'] = percentage_renewable
+    data['Percentage Fossil'] = fossil_power / total
 
     data['Green'] = (percentage_renewable > percentage_renewable.mean()) & (data['Overproduction'] == False)
 
