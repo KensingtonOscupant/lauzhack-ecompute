@@ -49,7 +49,7 @@ with layout_col1:
    st.subheader('Schedule job')
 
    new_job_name = st.text_input('Job name', value='Job 1')
-   new_job_duration = st.number_input('Job duration (h)', value=60, min_value=0, max_value=150)
+   new_job_duration = st.number_input('Job duration (h)', value=60, min_value=0, max_value=7*24)
    new_job_deadline = st.date_input('Job deadline', value=pd.to_datetime('2023-01-01'))
    new_job_submit = st.button('Schedule job')
 
