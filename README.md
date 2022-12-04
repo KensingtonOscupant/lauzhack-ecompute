@@ -8,7 +8,9 @@ Almost every day, green energy goes to waste because of poor resource management
 Our project allows users to schedule compute-intensive, and therefore energy-intensive, tasks in the cloud. It does this by predicting times at which most green energy is available, reducing carbon emissions particularly by leveraging times at which green energy is generated but not used.
 
 ## How we built it
-We trained a logistic regression model to forecast when green energy availability is the highest one week into the future based on current weather data and previous distributions between energy sources. We built a web app around it that allows the end user to schedule his jobs, e.g. training a resource-intensive machine learning model in the cloud. It provides insights into how much green energy is generated. How much of it is green time, when energy is overproduced and when the jobs requested have been scheduled.
+We trained a support vector machine to forecast when green energy availability is the highest one week into the future based on current weather data and previous distributions between energy sources. Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
+
+We built a web app around it that allows the end user to schedule his jobs, e.g. training a resource-intensive machine learning model in the cloud. It provides insights into how much green energy is generated. How much of it is green time, when energy is overproduced and when the jobs requested have been scheduled.
 
 ## Challenges we ran into
 Limitations of the frontend framework we used that we had to work around.
