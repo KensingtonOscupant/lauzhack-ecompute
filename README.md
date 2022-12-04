@@ -20,7 +20,7 @@ Almost every day, green energy goes to waste because of poor resource management
 
 ## II. What it does 🔧
 
-Our project allows users to schedule compute-intensive, and therefore energy-intensive, tasks in the cloud. It does this by predicting times at which most green energy is available, reducing carbon emissions particularly by leveraging times at which green energy is generated but not used.
+Our project allows users to schedule compute-intensive, and therefore energy-intensive, tasks in the cloud. It does this by predicting times at which most green energy is available, reducing carbon emissions particularly by leveraging times at which green energy is generated but not used. Our app is built around the concept of maximizing "green time" - the time in which the percentage of renewable energy used for the compute task is above a high threshold, ideally using only sustainable means of generation.
 
 ## III. How we built it 🏗️
 We trained a support vector machine to forecast when green energy availability is the highest one week into the future based on current weather data and previous distributions between energy sources. Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
