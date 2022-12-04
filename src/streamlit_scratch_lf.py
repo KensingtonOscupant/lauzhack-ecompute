@@ -56,13 +56,29 @@ with layout_col1:
 
    reset_jobs_button = st.button('Delete jobs')
 
-data = load_data()
-data = add_time_chunk_classification(data)
-data = data.loc[(data.index > '2022-04-01') & (data.index < '2022-04-14')]
+# Read predictions
+prediction_overproduction = pd.read_csv('prediction/prediction.csv', index_col=0)
+prediction_renewable = pd.read_csv('prediction/prediction_reg.csv', index_col=0)
+
+prediction_overproduction.index = pd.DatetimeIndex(prediction_overproduction.index)
+prediction_renewable.index = pd.DatetimeIndex(prediction_renewable.index)
+
+data_raw = load_data()
+data_raw = add_time_chunk_classification(data_raw)
+data = data_raw.loc[(data_raw.index > '2022-04-12') & (data_raw.index < '2022-04-14')]
+data_prediction = data_raw.loc[(data_raw.index >= '2022-04-14') & (data_raw.index < '2022-04-18')]
+data_prediction = data_prediction.merge(prediction_overproduction, left_index=True, right_index=True, how='left')
+data_prediction = data_prediction.merge(prediction_renewable, left_index=True, right_index=True, how='left')
+
+data_prediction.loc[data_prediction['Grey'], 'schedule_tag'] = 'grey'
+data_prediction.loc[data_prediction['Overproduction'], 'schedule_tag'] = 'excess'
+data_prediction.loc[data_prediction['Green'], 'schedule_tag'] = 'renewable'
 
 data.loc[data['Grey'], 'schedule_tag'] = 'grey'
 data.loc[data['Overproduction'], 'schedule_tag'] = 'excess'
 data.loc[data['Green'], 'schedule_tag'] = 'renewable'
+
+data_combined = pd.concat([data, data_prediction])
 
 with layout_col2:
 
@@ -75,11 +91,13 @@ with layout_col2:
 
    # Plotly subplot with three rows
    fig = subplots.make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.06, row_heights=[.8, 0.1, 0.08 * len(jobs) + 0.02])
-   fig.add_trace(go.Scatter(x=data.index, y=data['Percentage Renewable'], fill='tozeroy', line_color='mediumseagreen', name='Renewable energy'), row=1, col=1)
+   fig.add_trace(go.Scatter(x=data.index, y=data['Percentage Renewable'], fill='tozeroy', fillcolor='rgba(51, 217, 140, 0.8)', line_color='mediumspringgreen', name='Renewable energy', mode='none'), row=1, col=1)
+   fig.add_trace(go.Scatter(x=data_prediction.index, y=data_prediction['Percentage Renewable'], fill='tozeroy', fillcolor='rgba(51, 217, 140, 0.4)', line_color='springgreen', name='Renewable energy', mode='none'), row=1, col=1)
+
 
    # Add points where data['green'] == True
-   fig.add_trace(go.Scatter(x=data[data['Overproduction']].index, y=['Overproduction'] * len(data[data['Overproduction']].index), mode='markers', marker=dict(symbol='square'), name='Overproduction'), row=2, col=1)
-   fig.add_trace(go.Scatter(x=data[data['Green']].index, y=['Green'] * len(data[data['Green']].index), mode='markers', marker=dict(symbol='square'), name='Green time'), row=2, col=1)
+   fig.add_trace(go.Scatter(x=data_combined[data_combined['Overproduction']].index, y=['Overproduction'] * len(data_combined[data_combined['Overproduction']].index), mode='markers', marker=dict(symbol='square'), name='Overproduction'), row=2, col=1)
+   fig.add_trace(go.Scatter(x=data_combined[data_combined['Green']].index, y=['Green'] * len(data_combined[data_combined['Green']].index), mode='markers', marker=dict(symbol='square'), name='Green time'), row=2, col=1)
 
    # If job scheduled add line
    # Solve job scheduling problem if one is submitted
@@ -97,7 +115,7 @@ with layout_col2:
       jobs.to_csv('jobs.csv', index=False)
 
    if len(jobs) > 0:
-      scheduled_time_slots = scheduling.solve(jobs, data['schedule_tag'])
+      scheduled_time_slots = scheduling.solve(jobs, data_prediction['schedule_tag'])
       fig.add_trace(go.Scatter(x=scheduled_time_slots.dropna().index, y=scheduled_time_slots.dropna(), mode='markers', marker=dict(symbol='square'), name='Jobs'), row=3, col=1)
 
    st.plotly_chart(fig)
