@@ -23,12 +23,12 @@ Almost every day, green energy goes to waste because of poor resource management
 Our project allows users to schedule compute-intensive, and therefore energy-intensive, tasks in the cloud. It does this by predicting times at which most green energy is available, reducing carbon emissions particularly by leveraging times at which green energy is generated but not used. Our app is built around the concept of maximizing "green time" - the time in which the percentage of renewable energy used for the compute task is above a high threshold, ideally using only sustainable means of generation.
 
 ## III. How we built it 🏗️
-We trained a support vector machine to forecast when the power grid is overloaded and can't handle the amount of produced power. This is very often the case for renewable power plants due to their heterogenous production nature: 
+We combined different data sources to get up-to-date information about the weather and the status of the power grid. We combined these sources to (1) get insights into the workings of the power grid and (2) to estimate when the power grid is overloaded and can't handle the amount of produced power. This is very often the case for renewable power plants due to their heterogenous production nature: 
 
 → Solar panels ☀️  
 → Wind turbines 🌬️
 
-Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
+To predict this, we trained a support vector machine. Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
 
 ![event_plot](https://user-images.githubusercontent.com/99140162/205484918-87c48ab6-5969-45fd-ad93-99f01de45239.png)  
 *Time series plot of our model*
