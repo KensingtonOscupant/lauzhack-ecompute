@@ -1,3 +1,5 @@
+![ecompute_banner](https://user-images.githubusercontent.com/99140162/205484486-bd156963-ec30-475a-a5ee-fedf6bfb4af7.png)
+
 # ECOmpute - compute during green time
 
 ## Inspiration
