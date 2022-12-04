@@ -57,18 +57,21 @@ with layout_col1:
    reset_jobs_button = st.button('Delete jobs')
 
 # Read predictions
-prediction_overproduction = pd.read_csv('prediction/prediction.csv', index_col=0)
-prediction_renewable = pd.read_csv('prediction/prediction_reg.csv', index_col=0)
-
-prediction_overproduction.index = pd.DatetimeIndex(prediction_overproduction.index)
-prediction_renewable.index = pd.DatetimeIndex(prediction_renewable.index)
+prediction_overproduction = pd.read_csv('prediction/prediction.csv', index_col=0, parse_dates=True)
+prediction_overproduction.columns = ['Excess prediction']
+prediction_renewable = pd.read_csv('prediction/prediction_reg.csv', index_col=0, parse_dates=True)
+prediction_renewable.columns = ['Renewable prediction']
 
 data_raw = load_data()
 data_raw = add_time_chunk_classification(data_raw)
-data = data_raw.loc[(data_raw.index > '2022-04-12') & (data_raw.index < '2022-04-14')]
-data_prediction = data_raw.loc[(data_raw.index >= '2022-04-14') & (data_raw.index < '2022-04-18')]
+data = data_raw.loc[(data_raw.index > '2022-11-01') & (data_raw.index < '2022-11-03')]
+data_prediction = data_raw.loc[(data_raw.index >= '2022-11-03') & (data_raw.index < '2022-11-08')]
 data_prediction = data_prediction.merge(prediction_overproduction, left_index=True, right_index=True, how='left')
 data_prediction = data_prediction.merge(prediction_renewable, left_index=True, right_index=True, how='left')
+data_prediction.index = pd.DatetimeIndex(data_prediction.index)
+data_prediction = data_prediction.fillna(method='ffill')
+
+print(data_prediction)
 
 data_prediction.loc[data_prediction['Grey'], 'schedule_tag'] = 'grey'
 data_prediction.loc[data_prediction['Overproduction'], 'schedule_tag'] = 'excess'
@@ -92,7 +95,7 @@ with layout_col2:
    # Plotly subplot with three rows
    fig = subplots.make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.06, row_heights=[.8, 0.1, 0.08 * len(jobs) + 0.02])
    fig.add_trace(go.Scatter(x=data.index, y=data['Percentage Renewable'], fill='tozeroy', fillcolor='rgba(51, 217, 140, 0.8)', line_color='mediumspringgreen', name='Renewable energy', mode='none'), row=1, col=1)
-   fig.add_trace(go.Scatter(x=data_prediction.index, y=data_prediction['Percentage Renewable'], fill='tozeroy', fillcolor='rgba(51, 217, 140, 0.4)', line_color='springgreen', name='Renewable energy', mode='none'), row=1, col=1)
+   fig.add_trace(go.Scatter(x=data_prediction.index, y=data_prediction['Renewable prediction'], fill='tozeroy', fillcolor='rgba(51, 217, 140, 0.4)', line_color='springgreen', name='Renewable energy', mode='none'), row=1, col=1)
 
 
    # Add points where data['green'] == True

@@ -62,6 +62,8 @@ def load_meta():
 def load_data(utc="CET"):
     week_data = []
     for week_file in os.listdir("data"):
+        if not week_file.startswith('week'):
+            continue
         week_df = pd.read_json(os.path.join("data", week_file))
 
         data = pd.DataFrame(np.vstack(week_df["data"]).T)
