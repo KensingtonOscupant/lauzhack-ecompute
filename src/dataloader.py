@@ -59,15 +59,18 @@ def load_meta():
     return meta, column_info
 
 
-def load_data(utc="CET"):
+def load_data():
     week_data = []
     for week_file in os.listdir("data"):
+        if not week_file.startswith('week'):
+            continue
         week_df = pd.read_json(os.path.join("data", week_file))
 
         data = pd.DataFrame(np.vstack(week_df["data"]).T)
         data.index = pd.DatetimeIndex(
-            pd.to_datetime(week_df.loc[0, "xAxisValues"], unit="ms", utc=utc)
-        )
+            pd.to_datetime(week_df.loc[0, "xAxisValues"], unit="ms")
+            + pd.Timedelta(-1, unit='hours')
+        ).tz_localize('UTC').tz_convert('CET')
         data.columns = week_df["name"].apply(select_lang).rename("Time")
 
         week_data.append(data)

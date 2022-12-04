@@ -1,6 +1,7 @@
 numpy
-setuptools
 streamlit
 pandas
-dash
-clingo
+seaborn
+plotly
+jupyter
+sklearn
