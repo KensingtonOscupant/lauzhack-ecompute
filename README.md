@@ -6,11 +6,11 @@
 
 [I. Inspiration](#i-Inspiration)  
 [II. What it does](#ii-What-it-does)  
-[III. How we built it](#iii-How-we-built-it) 
-[IV. Challenges we ran into](#iv-Challenges-we-ran-into)
-[V. Accomplishments that we are proud of](#v-Accomplishments-that-we-are-proud-of)
-[VI. What we learned](#vi-What-we-learned)
-[VII. What is next for ECOmpute?](#vii-What-is-next-for-ECOmpute)
+[III. How we built it](#iii-How-we-built-it)   
+[IV. Challenges we ran into](#iv-Challenges-we-ran-into)  
+[V. Accomplishments that we are proud of](#v-Accomplishments-that-we-are-proud-of)  
+[VI. What we learned](#vi-What-we-learned)  
+[VII. What is next for ECOmpute?](#vii-What-is-next-for-ECOmpute)  
 
 
 ## I. Inspiration
