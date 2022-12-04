@@ -25,7 +25,7 @@ Our project allows users to schedule compute-intensive, and therefore energy-int
 ## III. How we built it 🏗️
 We trained a support vector machine to forecast when the power grid is overloaded and can't handle the amount of produced power. This is very often the case for renewable power plants due to their heterogenous production nature: 
 
-→ Solar panels ☀️
+→ Solar panels ☀️  
 → Wind turbines 🌬️
 
 Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
