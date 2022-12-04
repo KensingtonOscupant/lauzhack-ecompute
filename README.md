@@ -33,7 +33,7 @@ We combined different data sources to get up-to-date information about the weath
 To predict this, we trained a support vector machine. Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
 
 ![event_plot](https://user-images.githubusercontent.com/99140162/205484918-87c48ab6-5969-45fd-ad93-99f01de45239.png)  
-*Time series plot of our model*
+*Time series plot of our model predicting power grid overloads*
 
 We built a web app around it that allows the end user to schedule his jobs, e.g. training a resource-intensive machine learning model in the cloud. It provides insights into how much green energy is generated generally, when energy is overproduced and when the jobs requested have been scheduled.
 
