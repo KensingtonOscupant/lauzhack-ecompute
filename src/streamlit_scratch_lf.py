@@ -125,6 +125,6 @@ with layout_col2:
 
 # Calculate CO2e savings
 if new_job_submit:
-   renewable_mean_general = data.loc[data['Green'], 'Percentage Renewable'].mean()
-   renewable_mean_job = data.loc[scheduled_time_slots.dropna().index, 'Percentage Renewable'].mean()
-   st.subheader(f"✅ You saved {(renewable_mean_job - renewable_mean_general) * 12000:.2f} CO2 kg")
+   renewable_mean_general = data_combined.loc[data_combined['Green'], 'Percentage Renewable'].mean()
+   renewable_mean_job = data_prediction.loc[scheduled_time_slots.dropna().index, 'Percentage Renewable'].mean()
+   st.subheader(f"✅ You saved {np.abs(renewable_mean_job - renewable_mean_general) * 12000:.2f} CO2 kg")
