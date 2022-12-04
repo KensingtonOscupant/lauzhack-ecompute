@@ -74,7 +74,7 @@ with layout_col2:
          jobs.to_csv('jobs.csv', index=False)
 
    # Plotly subplot with three rows
-   fig = subplots.make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.06, row_heights=[1.0, 0.1, 0.03 * len(jobs)])
+   fig = subplots.make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.06, row_heights=[.8, 0.1, 0.08 * len(jobs) + 0.02])
    fig.add_trace(go.Scatter(x=data.index, y=data['Percentage Renewable'], fill='tozeroy', line_color='mediumseagreen', name='Renewable energy'), row=1, col=1)
 
    # Add points where data['green'] == True
