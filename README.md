@@ -1,3 +1,5 @@
+# ECOmpute - compute during green time
+
 ## Inspiration
 Almost every day, green energy goes to waste because of poor resource management. In times where climate change accelerates faster than ever, it is crucial to cut down on unnecessary energy consumption. Computing is a major factor here. 
 
