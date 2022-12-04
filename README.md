@@ -23,7 +23,7 @@ Our project allows users to schedule compute-intensive, and therefore energy-int
 ## III. How we built it
 We trained a support vector machine to forecast when green energy availability is the highest one week into the future based on current weather data and previous distributions between energy sources. Our predictions take one week of previous data to predict the upcoming three days. The model has an accuracy of ~88.9%.
 
-![event_plot](https://user-images.githubusercontent.com/99140162/205484918-87c48ab6-5969-45fd-ad93-99f01de45239.png)
+![event_plot](https://user-images.githubusercontent.com/99140162/205484918-87c48ab6-5969-45fd-ad93-99f01de45239.png)  
 *Time series plot of our model*
 
 We built a web app around it that allows the end user to schedule his jobs, e.g. training a resource-intensive machine learning model in the cloud. It provides insights into how much green energy is generated. How much of it is green time, when energy is overproduced and when the jobs requested have been scheduled.
