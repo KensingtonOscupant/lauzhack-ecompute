@@ -19,4 +19,6 @@ def get_weather(city):
         'temp': weather_dict['main']['temp'] + KELVIN_OFFSET,  # celsius (after conversion)
         'clouds': weather_dict['clouds']['all'],  # percent
         'wind': weather_dict['wind']['speed'],  # meters / second
+        'humidity': weather_dict['main']['humidity'],  # percent
+        'pressure': weather_dict['main']['pressure'],  # hectopascals
     }
